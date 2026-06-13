@@ -1,4 +1,5 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function CTA() {
   return (
@@ -14,13 +15,13 @@ export function CTA() {
             insights from day one.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <button className="group h-11 px-5 rounded-full bg-foreground text-background text-sm font-medium flex items-center gap-2 hover:opacity-90 transition-opacity">
-              Request institutional demo
+            <Link to="/auth" search={{ mode: "signup" }} className="group h-11 px-5 rounded-full bg-foreground text-background text-sm font-medium flex items-center gap-2 hover:opacity-90 transition-opacity">
+              Launch the live demo
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-            <button className="h-11 px-5 rounded-full border border-white/10 bg-surface/40 text-sm font-medium hover:bg-surface transition-colors">
-              Talk to our team
-            </button>
+            </Link>
+            <Link to="/auth" search={{ mode: "login" }} className="h-11 px-5 rounded-full border border-white/10 bg-surface/40 text-sm font-medium hover:bg-surface transition-colors">
+              Sign in
+            </Link>
           </div>
         </div>
       </div>
