@@ -15,14 +15,15 @@ import {
 import { clearSession, useDemoSession } from "@/lib/demo/auth";
 import { useNavigate } from "@tanstack/react-router";
 
-const items = [
+type NavItem = { to: string; label: string; icon: typeof Users; exact?: boolean };
+const items: NavItem[] = [
   { to: "/app", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/app/students", label: "Students", icon: Users },
   { to: "/app/events", label: "Events", icon: Calendar },
   { to: "/app/departments", label: "Departments", icon: Building2 },
   { to: "/app/skills", label: "Skills & Gaps", icon: Target },
   { to: "/app/reports", label: "Reports", icon: FileText },
-] as const;
+];
 
 export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
