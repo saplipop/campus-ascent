@@ -56,7 +56,7 @@ export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle:
           return (
             <Link
               key={it.to}
-              to={it.to}
+              to={it.to as "/app"}
               className={`flex items-center gap-3 h-9 px-3 rounded-lg text-sm transition-colors ${
                 active
                   ? "bg-teal/15 text-teal"
