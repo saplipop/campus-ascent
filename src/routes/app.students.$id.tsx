@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Award, Briefcase, Calendar, Code, GraduationCap, Trophy, Users } from "lucide-react";
 import { Card, CardHeader, PageHeader, Pill, ProgressRing } from "@/components/app/ui";
 import { CareerIQRadar, GrowthLine } from "@/components/app/charts";
-import { getStudent } from "@/lib/demo/data";
+import { getStudent, type Student, type TimelineEntry } from "@/lib/demo/data";
 
 export const Route = createFileRoute("/app/students/$id")({
   loader: ({ params }) => {
@@ -28,7 +28,7 @@ export const Route = createFileRoute("/app/students/$id")({
 });
 
 function StudentDetail() {
-  const { student } = Route.useLoaderData();
+  const { student } = Route.useLoaderData() as { student: Student };
 
   const radar = [
     { axis: "Technical", value: 88 },
@@ -179,7 +179,7 @@ function Metric({ label, value, tone }: { label: string; value: number; tone: "t
   );
 }
 
-function Timeline({ entries }: { entries: ReturnType<typeof getStudent> extends infer T ? T extends { timeline: infer X } ? X : never : never }) {
+function Timeline({ entries }: { entries: TimelineEntry[] }) {
   const iconFor: Record<string, typeof Calendar> = {
     workshop: GraduationCap,
     hackathon: Code,
@@ -200,7 +200,7 @@ function Timeline({ entries }: { entries: ReturnType<typeof getStudent> extends 
     <div className="relative pl-5 mt-2">
       <div className="absolute left-2 top-2 bottom-2 w-px bg-gradient-to-b from-teal via-iris to-rose opacity-50" />
       <ul className="space-y-5">
-        {entries.map((entry, i: number) => {
+        {entries.map((entry, i) => {
           const Icon = iconFor[entry.kind];
           const tone = toneFor[entry.kind];
           return (
