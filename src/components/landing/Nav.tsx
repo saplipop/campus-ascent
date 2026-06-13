@@ -1,5 +1,5 @@
-import { Link } from "@tanstack/react-router";
 import { Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function Nav() {
   return (
@@ -18,12 +18,12 @@ export function Nav() {
           <a href="#testimonials" className="hover:text-foreground transition-colors">Stories</a>
         </div>
         <div className="flex items-center gap-3">
-          <button className="hidden sm:inline-flex text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <Link to="/auth" search={{ mode: "login" }} className="hidden sm:inline-flex text-sm text-muted-foreground hover:text-foreground transition-colors">
             Sign in
-          </button>
-          <button className="h-9 px-4 rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity">
-            Request demo
-          </button>
+          </Link>
+          <Link to="/auth" search={{ mode: "signup" }} className="h-9 px-4 inline-flex items-center rounded-full bg-foreground text-background text-sm font-medium hover:opacity-90 transition-opacity">
+            Launch demo
+          </Link>
         </div>
       </div>
     </nav>

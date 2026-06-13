@@ -1,4 +1,5 @@
 import { ArrowRight, Play, TrendingUp } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function Hero() {
   return (
@@ -27,14 +28,14 @@ export function Hero() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 animate-fade-up [animation-delay:240ms]">
-            <button className="group h-11 px-5 rounded-full bg-teal text-background text-sm font-medium flex items-center gap-2 shadow-lg shadow-teal/25 hover:brightness-110 transition-all">
-              Request institutional demo
+            <Link to="/auth" search={{ mode: "signup" }} className="group h-11 px-5 rounded-full bg-teal text-background text-sm font-medium flex items-center gap-2 shadow-lg shadow-teal/25 hover:brightness-110 transition-all">
+              Launch live demo
               <ArrowRight className="size-4 group-hover:translate-x-0.5 transition-transform" />
-            </button>
-            <button className="h-11 px-5 rounded-full border border-white/10 bg-surface/60 text-sm font-medium flex items-center gap-2 hover:bg-surface transition-colors">
+            </Link>
+            <Link to="/auth" search={{ mode: "login" }} className="h-11 px-5 rounded-full border border-white/10 bg-surface/60 text-sm font-medium flex items-center gap-2 hover:bg-surface transition-colors">
               <Play className="size-3.5 fill-foreground" />
-              Watch product tour
-            </button>
+              Sign in to dashboard
+            </Link>
           </div>
 
           <p className="mt-6 text-xs text-muted-foreground animate-fade-up [animation-delay:320ms]">
