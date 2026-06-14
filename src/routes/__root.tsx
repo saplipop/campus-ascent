@@ -81,10 +81,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Transform student activities into growth intelligence. Track engagement, identify skill gaps, and measure career readiness with a premium analytics platform for modern institutions." },
       { name: "author", content: "Campus Connect Analytics" },
       { property: "og:title", content: "Campus Connect Analytics — Track. Analyze. Grow." },
-      { property: "og:description", content: "Transform student activities into growth intelligence. Premium analytics for modern educational institutions." },
+      { property: "og:description", content: "Transform student activities into growth intelligence. Track engagement, identify skill gaps, and measure career readiness with a premium analytics platform for modern institutions." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@CampusConnect" },
+      { name: "twitter:title", content: "Campus Connect Analytics — Track. Analyze. Grow." },
+      { name: "twitter:description", content: "Transform student activities into growth intelligence. Track engagement, identify skill gaps, and measure career readiness with a premium analytics platform for modern institutions." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/y0SGCV0QFqdwmAnS41rH0Ru01cn1/social-images/social-1781438818051-10910714.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/y0SGCV0QFqdwmAnS41rH0Ru01cn1/social-images/social-1781438818051-10910714.webp" },
     ],
     links: [
       {
