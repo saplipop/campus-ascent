@@ -86,7 +86,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
                 </ResultGroup>
                 <ResultGroup label="Events" icon={Calendar}>
                   {results.events.map((e) => (
-                    <Link key={e.id} to="/app/events" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
+                    <Link key={e.id} to="/app/analytics" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
                       <div className="size-7 rounded-md bg-iris/20 border border-iris/30 grid place-items-center">
                         <Calendar className="size-3.5 text-iris" />
                       </div>
@@ -100,7 +100,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
                 </ResultGroup>
                 <ResultGroup label="Departments" icon={Building2}>
                   {results.departments.map((d) => (
-                    <Link key={d.id} to="/app/departments" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
+                    <Link key={d.id} to="/app/analytics" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
                       <div className="size-7 rounded-md grid place-items-center text-[10px] font-semibold" style={{ background: `color-mix(in oklab, ${d.color} 20%, transparent)`, color: d.color }}>
                         {d.code}
                       </div>
@@ -114,7 +114,7 @@ export function GlobalSearch({ open, onClose }: { open: boolean; onClose: () => 
                 {results.skills.length > 0 && (
                   <ResultGroup label="Skills" icon={Target}>
                     {results.skills.map((s) => (
-                      <Link key={s.name} to="/app/skills" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
+                      <Link key={s.name} to="/app/analytics" onClick={onClose} className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
                         <Target className="size-3.5 text-teal" />
                         <span className="text-sm">{s.name}</span>
                       </Link>

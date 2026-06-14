@@ -1,15 +1,13 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   BarChart3,
-  Building2,
-  Calendar,
   ChevronsLeft,
   ChevronsRight,
   FileText,
   LayoutDashboard,
   LogOut,
+  Settings,
   Sparkles,
-  Target,
   Users,
 } from "lucide-react";
 import { clearSession, useDemoSession } from "@/lib/demo/auth";
@@ -19,10 +17,9 @@ type NavItem = { to: string; label: string; icon: typeof Users; exact?: boolean 
 const items: NavItem[] = [
   { to: "/app", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/app/students", label: "Students", icon: Users },
-  { to: "/app/events", label: "Events", icon: Calendar },
-  { to: "/app/departments", label: "Departments", icon: Building2 },
-  { to: "/app/skills", label: "Skills & Gaps", icon: Target },
+  { to: "/app/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/app/reports", label: "Reports", icon: FileText },
+  { to: "/app/settings", label: "Settings", icon: Settings },
 ];
 
 export function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
