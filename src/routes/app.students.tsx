@@ -29,7 +29,7 @@ function StudentsPage() {
         description="Profiles, growth journeys, and personalized analytics for every student in your institution."
       />
 
-      <Card className="p-3 mb-4 flex flex-wrap items-center gap-2">
+      <Card className="p-3 mb-6 flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2 px-3 h-9 rounded-lg bg-background/40 border border-white/10 flex-1 min-w-[200px]">
           <Search className="size-3.5 text-muted-foreground" />
           <input
@@ -39,12 +39,18 @@ function StudentsPage() {
             className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
           />
         </div>
-        <div className="flex items-center gap-1 text-xs">
-          <Filter className="size-3 text-muted-foreground mr-1" />
-          <FilterChip label="All" active={dept === "ALL"} onClick={() => setDept("ALL")} />
-          {departments.map((d) => (
-            <FilterChip key={d.code} label={d.code} active={dept === d.code} onClick={() => setDept(d.code)} />
-          ))}
+        <div className="flex items-center gap-2 text-xs">
+          <Filter className="size-3.5 text-muted-foreground" />
+          <select
+            value={dept}
+            onChange={(e) => setDept(e.target.value)}
+            className="h-9 px-3 rounded-lg bg-background/40 border border-white/10 text-xs text-foreground outline-none cursor-pointer hover:bg-background/70"
+          >
+            <option value="ALL">All departments</option>
+            {departments.map((d) => (
+              <option key={d.code} value={d.code}>{d.code} — {d.name}</option>
+            ))}
+          </select>
         </div>
       </Card>
 
@@ -68,7 +74,7 @@ function StudentsPage() {
               params={{ id: s.id }}
               className="group rounded-2xl border border-white/5 bg-surface/40 p-5 hover:bg-surface/70 hover:border-white/15 transition-all"
             >
-              <div className="flex items-start justify-between mb-4">
+              <div className="flex items-start justify-between mb-5">
                 <div className="flex items-center gap-3">
                   <div
                     className="size-11 rounded-full grid place-items-center text-sm font-semibold text-background"
@@ -83,16 +89,14 @@ function StudentsPage() {
                 </div>
                 <ChevronRight className="size-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
               </div>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <Stat label="CareerIQ" value={s.careerIQ} accent />
-                <Stat label="Pulse" value={s.pulse} />
+              <div className="flex items-end justify-between mb-5">
+                <div>
+                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">CareerIQ</p>
+                  <p className="text-4xl font-semibold text-teal leading-none mt-1">{s.careerIQ}</p>
+                </div>
+                <span className="text-[10px] text-muted-foreground">{s.certifications.length} certs · {s.goal}</span>
               </div>
-              <div className="flex items-center justify-between">
-                <Pill tone={s.careerIQ >= 80 ? "teal" : s.careerIQ >= 70 ? "iris" : "rose"}>
-                  {s.goal}
-                </Pill>
-                <span className="text-[10px] text-muted-foreground">{s.certifications.length} certs</span>
-              </div>
+              <StatusBadge status={s.status} />
             </Link>
           ))}
         </div>
@@ -101,7 +105,22 @@ function StudentsPage() {
   );
 }
 
-function FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+function StatusBadge({ status }: { status: "High Performer" | "Active" | "At Risk" }) {
+  const map = {
+    "High Performer": { tone: "teal" as const, dot: "🟢" },
+    Active: { tone: "iris" as const, dot: "🔵" },
+    "At Risk": { tone: "rose" as const, dot: "🟡" },
+  };
+  const m = map[status];
+  return (
+    <Pill tone={m.tone}>
+      <span className="mr-1">{m.dot}</span>
+      {status}
+    </Pill>
+  );
+}
+
+function _unused_FilterChip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
@@ -111,14 +130,5 @@ function FilterChip({ label, active, onClick }: { label: string; active: boolean
     >
       {label}
     </button>
-  );
-}
-
-function Stat({ label, value, accent }: { label: string; value: number; accent?: boolean }) {
-  return (
-    <div className="rounded-lg bg-background/40 border border-white/5 p-3">
-      <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</p>
-      <p className={`text-lg font-semibold ${accent ? "text-teal" : ""}`}>{value}</p>
-    </div>
   );
 }

@@ -1,14 +1,16 @@
-import { Bell, Moon, Search, Sun } from "lucide-react";
+import { Bell, Focus, Moon, Search, Sun } from "lucide-react";
 import { useEffect, useState } from "react";
 import { GlobalSearch } from "./GlobalSearch";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { useTheme } from "@/lib/demo/theme";
 import { notifications } from "@/lib/demo/data";
+import { useFocusMode } from "@/lib/demo/preferences";
 
 export function Topbar() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const { mode, toggle } = useTheme();
+  const { focus, toggle: toggleFocus } = useFocusMode();
   const unread = notifications.filter((n) => n.unread).length;
 
   useEffect(() => {
@@ -38,6 +40,20 @@ export function Topbar() {
         </button>
 
         <div className="ml-auto flex items-center gap-2">
+          <button
+            onClick={toggleFocus}
+            title="Focus mode hides extra panels"
+            className={`h-9 px-3 rounded-lg border text-xs font-medium grid place-items-center transition-colors ${
+              focus
+                ? "border-teal/40 bg-teal/15 text-teal"
+                : "border-white/10 bg-surface/40 text-muted-foreground hover:text-foreground hover:bg-surface"
+            }`}
+          >
+            <span className="flex items-center gap-1.5">
+              <Focus className="size-3.5" />
+              <span className="hidden sm:inline">Focus</span>
+            </span>
+          </button>
           <button
             onClick={toggle}
             className="size-9 rounded-lg border border-white/10 bg-surface/40 grid place-items-center text-muted-foreground hover:text-foreground hover:bg-surface transition-colors"

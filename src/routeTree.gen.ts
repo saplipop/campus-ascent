@@ -14,10 +14,9 @@ import { Route as AppRouteImport } from './routes/app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app.index'
 import { Route as AppStudentsRouteImport } from './routes/app.students'
-import { Route as AppSkillsRouteImport } from './routes/app.skills'
+import { Route as AppSettingsRouteImport } from './routes/app.settings'
 import { Route as AppReportsRouteImport } from './routes/app.reports'
-import { Route as AppEventsRouteImport } from './routes/app.events'
-import { Route as AppDepartmentsRouteImport } from './routes/app.departments'
+import { Route as AppAnalyticsRouteImport } from './routes/app.analytics'
 import { Route as AppStudentsIdRouteImport } from './routes/app.students.$id'
 
 const AuthRoute = AuthRouteImport.update({
@@ -45,9 +44,9 @@ const AppStudentsRoute = AppStudentsRouteImport.update({
   path: '/students',
   getParentRoute: () => AppRoute,
 } as any)
-const AppSkillsRoute = AppSkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
 const AppReportsRoute = AppReportsRouteImport.update({
@@ -55,14 +54,9 @@ const AppReportsRoute = AppReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AppRoute,
 } as any)
-const AppEventsRoute = AppEventsRouteImport.update({
-  id: '/events',
-  path: '/events',
-  getParentRoute: () => AppRoute,
-} as any)
-const AppDepartmentsRoute = AppDepartmentsRouteImport.update({
-  id: '/departments',
-  path: '/departments',
+const AppAnalyticsRoute = AppAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
   getParentRoute: () => AppRoute,
 } as any)
 const AppStudentsIdRoute = AppStudentsIdRouteImport.update({
@@ -75,10 +69,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/app/departments': typeof AppDepartmentsRoute
-  '/app/events': typeof AppEventsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/reports': typeof AppReportsRoute
-  '/app/skills': typeof AppSkillsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRouteWithChildren
   '/app/': typeof AppIndexRoute
   '/app/students/$id': typeof AppStudentsIdRoute
@@ -86,10 +79,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
-  '/app/departments': typeof AppDepartmentsRoute
-  '/app/events': typeof AppEventsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/reports': typeof AppReportsRoute
-  '/app/skills': typeof AppSkillsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRouteWithChildren
   '/app': typeof AppIndexRoute
   '/app/students/$id': typeof AppStudentsIdRoute
@@ -99,10 +91,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
-  '/app/departments': typeof AppDepartmentsRoute
-  '/app/events': typeof AppEventsRoute
+  '/app/analytics': typeof AppAnalyticsRoute
   '/app/reports': typeof AppReportsRoute
-  '/app/skills': typeof AppSkillsRoute
+  '/app/settings': typeof AppSettingsRoute
   '/app/students': typeof AppStudentsRouteWithChildren
   '/app/': typeof AppIndexRoute
   '/app/students/$id': typeof AppStudentsIdRoute
@@ -113,10 +104,9 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
-    | '/app/departments'
-    | '/app/events'
+    | '/app/analytics'
     | '/app/reports'
-    | '/app/skills'
+    | '/app/settings'
     | '/app/students'
     | '/app/'
     | '/app/students/$id'
@@ -124,10 +114,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
-    | '/app/departments'
-    | '/app/events'
+    | '/app/analytics'
     | '/app/reports'
-    | '/app/skills'
+    | '/app/settings'
     | '/app/students'
     | '/app'
     | '/app/students/$id'
@@ -136,10 +125,9 @@ export interface FileRouteTypes {
     | '/'
     | '/app'
     | '/auth'
-    | '/app/departments'
-    | '/app/events'
+    | '/app/analytics'
     | '/app/reports'
-    | '/app/skills'
+    | '/app/settings'
     | '/app/students'
     | '/app/'
     | '/app/students/$id'
@@ -188,11 +176,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppStudentsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/skills': {
-      id: '/app/skills'
-      path: '/skills'
-      fullPath: '/app/skills'
-      preLoaderRoute: typeof AppSkillsRouteImport
+    '/app/settings': {
+      id: '/app/settings'
+      path: '/settings'
+      fullPath: '/app/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/reports': {
@@ -202,18 +190,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppReportsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/app/events': {
-      id: '/app/events'
-      path: '/events'
-      fullPath: '/app/events'
-      preLoaderRoute: typeof AppEventsRouteImport
-      parentRoute: typeof AppRoute
-    }
-    '/app/departments': {
-      id: '/app/departments'
-      path: '/departments'
-      fullPath: '/app/departments'
-      preLoaderRoute: typeof AppDepartmentsRouteImport
+    '/app/analytics': {
+      id: '/app/analytics'
+      path: '/analytics'
+      fullPath: '/app/analytics'
+      preLoaderRoute: typeof AppAnalyticsRouteImport
       parentRoute: typeof AppRoute
     }
     '/app/students/$id': {
@@ -239,19 +220,17 @@ const AppStudentsRouteWithChildren = AppStudentsRoute._addFileChildren(
 )
 
 interface AppRouteChildren {
-  AppDepartmentsRoute: typeof AppDepartmentsRoute
-  AppEventsRoute: typeof AppEventsRoute
+  AppAnalyticsRoute: typeof AppAnalyticsRoute
   AppReportsRoute: typeof AppReportsRoute
-  AppSkillsRoute: typeof AppSkillsRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppStudentsRoute: typeof AppStudentsRouteWithChildren
   AppIndexRoute: typeof AppIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppDepartmentsRoute: AppDepartmentsRoute,
-  AppEventsRoute: AppEventsRoute,
+  AppAnalyticsRoute: AppAnalyticsRoute,
   AppReportsRoute: AppReportsRoute,
-  AppSkillsRoute: AppSkillsRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppStudentsRoute: AppStudentsRouteWithChildren,
   AppIndexRoute: AppIndexRoute,
 }
