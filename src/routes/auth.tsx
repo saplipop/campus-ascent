@@ -201,8 +201,9 @@ function LoginForm() {
           Sign in to your Campus Connect workspace.
         </p>
       </div>
-      <Field label="Email address">
+      <Field label="Email address" htmlFor="login-email">
         <input
+          id="login-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -210,9 +211,10 @@ function LoginForm() {
           autoComplete="email"
         />
       </Field>
-      <Field label="Password">
+      <Field label="Password" htmlFor="login-password">
         <div className="relative">
           <input
+            id="login-password"
             type={show ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -304,14 +306,14 @@ function SignupForm() {
           Spin up a personalized demo of Campus Connect.
         </p>
       </div>
-      <Field label="Full name" valid={name.length === 0 ? undefined : nameOk}>
-        <input value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
+      <Field label="Full name" valid={name.length === 0 ? undefined : nameOk} htmlFor="signup-name">
+        <input id="signup-name" value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
       </Field>
-      <Field label="Email address" valid={email.length === 0 ? undefined : emailOk}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
+      <Field label="Email address" valid={email.length === 0 ? undefined : emailOk} htmlFor="signup-email">
+        <input id="signup-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
       </Field>
-      <Field label="Institution name">
-        <input value={institution} onChange={(e) => setInstitution(e.target.value)} className={inputCls} placeholder="Lakeside Institute of Technology" />
+      <Field label="Institution name" htmlFor="signup-institution">
+        <input id="signup-institution" value={institution} onChange={(e) => setInstitution(e.target.value)} className={inputCls} placeholder="Lakeside Institute of Technology" />
       </Field>
       <Field label="Role">
         <div className="grid grid-cols-3 gap-2">
@@ -327,9 +329,10 @@ function SignupForm() {
           ))}
         </div>
       </Field>
-      <Field label="Password">
+      <Field label="Password" htmlFor="signup-password">
         <div className="relative">
           <input
+            id="signup-password"
             type={show ? "text" : "password"}
             value={pw}
             onChange={(e) => setPw(e.target.value)}
@@ -341,8 +344,8 @@ function SignupForm() {
         </div>
         <PasswordStrength score={strength} />
       </Field>
-      <Field label="Confirm password" valid={pw2.length === 0 ? undefined : matches}>
-        <input type={show ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} className={inputCls} />
+      <Field label="Confirm password" valid={pw2.length === 0 ? undefined : matches} htmlFor="signup-password-confirm">
+        <input id="signup-password-confirm" type={show ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} className={inputCls} />
       </Field>
       <label className="flex items-start gap-2 text-xs text-muted-foreground cursor-pointer">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="accent-teal mt-0.5" />
