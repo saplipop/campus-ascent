@@ -367,11 +367,11 @@ function SignupForm() {
 const inputCls =
   "w-full h-10 rounded-lg bg-background/60 border border-white/10 px-3 text-sm outline-none focus:border-teal/60 transition-colors";
 
-function Field({ label, children, valid }: { label: string; children: React.ReactNode; valid?: boolean }) {
+function Field({ label, children, valid, htmlFor }: { label: string; children: React.ReactNode; valid?: boolean; htmlFor?: string }) {
   return (
     <div>
       <div className="flex justify-between items-center mb-1.5">
-        <label className="text-xs font-medium text-muted-foreground">{label}</label>
+        <label htmlFor={htmlFor} className="text-xs font-medium text-muted-foreground">{label}</label>
         {valid === true && <Check className="size-3 text-teal" />}
         {valid === false && <span className="text-[10px] text-rose">Invalid</span>}
       </div>
