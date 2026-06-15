@@ -23,8 +23,13 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Campus Connect Analytics" },
-      { name: "description", content: "Access the Campus Connect Analytics demo." },
+      { name: "description", content: "Sign in or create an account to explore the Campus Connect Analytics live demo workspace with prebuilt institutional data." },
+      { property: "og:title", content: "Sign in — Campus Connect Analytics" },
+      { property: "og:description", content: "Access the Campus Connect Analytics live demo workspace with prebuilt institutional data." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/auth" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/auth" }],
   }),
   component: AuthPage,
 });
@@ -196,8 +201,9 @@ function LoginForm() {
           Sign in to your Campus Connect workspace.
         </p>
       </div>
-      <Field label="Email address">
+      <Field label="Email address" htmlFor="login-email">
         <input
+          id="login-email"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
@@ -205,9 +211,10 @@ function LoginForm() {
           autoComplete="email"
         />
       </Field>
-      <Field label="Password">
+      <Field label="Password" htmlFor="login-password">
         <div className="relative">
           <input
+            id="login-password"
             type={show ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -299,14 +306,14 @@ function SignupForm() {
           Spin up a personalized demo of Campus Connect.
         </p>
       </div>
-      <Field label="Full name" valid={name.length === 0 ? undefined : nameOk}>
-        <input value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
+      <Field label="Full name" valid={name.length === 0 ? undefined : nameOk} htmlFor="signup-name">
+        <input id="signup-name" value={name} onChange={(e) => setName(e.target.value)} className={inputCls} />
       </Field>
-      <Field label="Email address" valid={email.length === 0 ? undefined : emailOk}>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
+      <Field label="Email address" valid={email.length === 0 ? undefined : emailOk} htmlFor="signup-email">
+        <input id="signup-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inputCls} />
       </Field>
-      <Field label="Institution name">
-        <input value={institution} onChange={(e) => setInstitution(e.target.value)} className={inputCls} placeholder="Lakeside Institute of Technology" />
+      <Field label="Institution name" htmlFor="signup-institution">
+        <input id="signup-institution" value={institution} onChange={(e) => setInstitution(e.target.value)} className={inputCls} placeholder="Lakeside Institute of Technology" />
       </Field>
       <Field label="Role">
         <div className="grid grid-cols-3 gap-2">
@@ -322,9 +329,10 @@ function SignupForm() {
           ))}
         </div>
       </Field>
-      <Field label="Password">
+      <Field label="Password" htmlFor="signup-password">
         <div className="relative">
           <input
+            id="signup-password"
             type={show ? "text" : "password"}
             value={pw}
             onChange={(e) => setPw(e.target.value)}
@@ -336,8 +344,8 @@ function SignupForm() {
         </div>
         <PasswordStrength score={strength} />
       </Field>
-      <Field label="Confirm password" valid={pw2.length === 0 ? undefined : matches}>
-        <input type={show ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} className={inputCls} />
+      <Field label="Confirm password" valid={pw2.length === 0 ? undefined : matches} htmlFor="signup-password-confirm">
+        <input id="signup-password-confirm" type={show ? "text" : "password"} value={pw2} onChange={(e) => setPw2(e.target.value)} className={inputCls} />
       </Field>
       <label className="flex items-start gap-2 text-xs text-muted-foreground cursor-pointer">
         <input type="checkbox" checked={agree} onChange={(e) => setAgree(e.target.checked)} className="accent-teal mt-0.5" />
@@ -362,11 +370,11 @@ function SignupForm() {
 const inputCls =
   "w-full h-10 rounded-lg bg-background/60 border border-white/10 px-3 text-sm outline-none focus:border-teal/60 transition-colors";
 
-function Field({ label, children, valid }: { label: string; children: React.ReactNode; valid?: boolean }) {
+function Field({ label, children, valid, htmlFor }: { label: string; children: React.ReactNode; valid?: boolean; htmlFor?: string }) {
   return (
     <div>
       <div className="flex justify-between items-center mb-1.5">
-        <label className="text-xs font-medium text-muted-foreground">{label}</label>
+        <label htmlFor={htmlFor} className="text-xs font-medium text-muted-foreground">{label}</label>
         {valid === true && <Check className="size-3 text-teal" />}
         {valid === false && <span className="text-[10px] text-rose">Invalid</span>}
       </div>

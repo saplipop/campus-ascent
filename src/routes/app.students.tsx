@@ -5,7 +5,16 @@ import { Card, EmptyState, PageHeader, Pill } from "@/components/app/ui";
 import { departments, students } from "@/lib/demo/data";
 
 export const Route = createFileRoute("/app/students")({
-  head: () => ({ meta: [{ title: "Students — Campus Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Students — Campus Connect" },
+      { name: "description", content: "Browse student profiles, growth journeys, and personalized CareerIQ analytics across every department." },
+      { property: "og:title", content: "Students — Campus Connect" },
+      { property: "og:description", content: "Profiles, growth journeys, and CareerIQ analytics for every student." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/app/students" },
+    ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/app/students" }],
+  }),
   component: StudentsPage,
 });
 

@@ -6,7 +6,16 @@ import { useInstitution } from "@/lib/demo/preferences";
 import { clearSession, useDemoSession } from "@/lib/demo/auth";
 
 export const Route = createFileRoute("/app/settings")({
-  head: () => ({ meta: [{ title: "Settings — Campus Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Settings — Campus Connect" },
+      { name: "description", content: "Personalize your Campus Connect workspace — theme, institution name, and account preferences." },
+      { property: "og:title", content: "Settings — Campus Connect" },
+      { property: "og:description", content: "Personalize your Campus Connect workspace preferences." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/app/settings" },
+    ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/app/settings" }],
+  }),
   component: SettingsPage,
 });
 

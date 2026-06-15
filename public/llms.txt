@@ -1,0 +1,10 @@
+# Campus Connect Analytics
+
+> Student growth intelligence platform that helps educational institutions track engagement, identify skill gaps, and measure career readiness through beautiful analytics.
+
+Campus Connect Analytics turns student activities, events, certifications, workshops, and internships into actionable growth insights for administrators, faculty, and student coordinators.
+
+## Pages
+
+- [Home](/): Product overview, features, and live demo entry point.
+- [Sign in](/auth): Access the live demo workspace with any credentials.

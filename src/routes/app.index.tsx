@@ -7,7 +7,16 @@ import { useFocusMode } from "@/lib/demo/preferences";
 import { useDemoSession } from "@/lib/demo/auth";
 
 export const Route = createFileRoute("/app/")({
-  head: () => ({ meta: [{ title: "Overview — Campus Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Overview — Campus Connect" },
+      { name: "description", content: "Real-time institutional overview: KPIs, student growth trends, and AI insights across every department." },
+      { property: "og:title", content: "Overview — Campus Connect" },
+      { property: "og:description", content: "Real-time institutional KPIs, student growth trends, and AI insights." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/app" },
+    ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/app" }],
+  }),
   component: Overview,
 });
 
