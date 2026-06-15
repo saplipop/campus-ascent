@@ -23,8 +23,13 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Campus Connect Analytics" },
-      { name: "description", content: "Access the Campus Connect Analytics demo." },
+      { name: "description", content: "Sign in or create an account to explore the Campus Connect Analytics live demo workspace with prebuilt institutional data." },
+      { property: "og:title", content: "Sign in — Campus Connect Analytics" },
+      { property: "og:description", content: "Access the Campus Connect Analytics live demo workspace with prebuilt institutional data." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/auth" },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/auth" }],
   }),
   component: AuthPage,
 });
