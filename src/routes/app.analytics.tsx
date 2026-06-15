@@ -5,7 +5,16 @@ import { DepartmentBars, EngagementHeatmap, SkillGapBars } from "@/components/ap
 import { departments, events, skillGaps, trendingSkills } from "@/lib/demo/data";
 
 export const Route = createFileRoute("/app/analytics")({
-  head: () => ({ meta: [{ title: "Analytics — Campus Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Analytics — Campus Connect" },
+      { name: "description", content: "Performance, skills, and engagement analytics for every department in one tabbed institutional view." },
+      { property: "og:title", content: "Analytics — Campus Connect" },
+      { property: "og:description", content: "Performance, skills, and engagement analytics for every department." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/app/analytics" },
+    ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/app/analytics" }],
+  }),
   component: AnalyticsPage,
 });
 

@@ -3,7 +3,16 @@ import { Briefcase, Building2, Download, Eye, Users } from "lucide-react";
 import { Card, PageHeader } from "@/components/app/ui";
 
 export const Route = createFileRoute("/app/reports")({
-  head: () => ({ meta: [{ title: "Reports — Campus Connect" }] }),
+  head: () => ({
+    meta: [
+      { title: "Reports — Campus Connect" },
+      { name: "description", content: "Generate and export student performance, department summary, and placement readiness reports for stakeholders." },
+      { property: "og:title", content: "Reports — Campus Connect" },
+      { property: "og:description", content: "Generate student performance, department, and placement readiness reports." },
+      { property: "og:url", content: "https://campus-growth-insights.lovable.app/app/reports" },
+    ],
+    links: [{ rel: "canonical", href: "https://campus-growth-insights.lovable.app/app/reports" }],
+  }),
   component: ReportsPage,
 });
 
