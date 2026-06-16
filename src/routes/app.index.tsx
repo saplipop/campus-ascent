@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Activity, Award, Briefcase, GraduationCap, Sparkles, TrendingUp, Users } from "lucide-react";
-import { Card, CardHeader, KpiCard, PageHeader } from "@/components/app/ui";
-import { GrowthLine } from "@/components/app/charts";
+import { Card, CardHeader, KpiCard, PageHeader } from "@/components/dashboard";
+import { GrowthLine } from "@/components/charts";
 import { activityFeed, insights, overviewKpis, studentGrowth } from "@/lib/demo/data";
 import { useFocusMode } from "@/lib/demo/preferences";
 import { useDemoSession } from "@/lib/demo/auth";
@@ -25,7 +25,7 @@ function Overview() {
   const { focus } = useFocusMode();
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-12">
       <PageHeader
         eyebrow={`Welcome back, ${user?.name?.split(" ")[0] ?? "there"}`}
         title="Institutional overview"
@@ -40,7 +40,7 @@ function Overview() {
       </PageHeader>
 
       {/* 4 KPI cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
         <KpiCard label="Total Students" value={overviewKpis.totalStudents} icon={Users} delta={4.2} />
         <KpiCard label="Active Engagement" value={overviewKpis.activeEngagement} suffix="%" icon={Activity} delta={6.1} tone="iris" />
         <KpiCard label="Avg CareerIQ" value={overviewKpis.careerIQ} suffix="%" icon={Award} delta={5.4} />
@@ -48,7 +48,7 @@ function Overview() {
       </div>
 
       {/* Single trend graph */}
-      <Card className="p-1">
+      <Card className="p-2">
         <CardHeader
           title="Student Growth Trend"
           description="Monthly composite CareerIQ across the institution"
@@ -58,7 +58,7 @@ function Overview() {
             </span>
           }
         />
-        <div className="px-2 pb-4">
+        <div className="px-3 pb-5">
           <GrowthLine data={studentGrowth} />
         </div>
       </Card>
@@ -66,31 +66,36 @@ function Overview() {
       {!focus && (
         <>
           {/* Quick AI-style insights */}
-          <div>
-            <h2 className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Quick insights</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <section className="space-y-5">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground font-medium">
+                Quick insights
+              </h2>
+              <span className="text-[11px] text-muted-foreground">Updated just now</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {insights.map((it) => (
-                <Card key={it.id} className="p-5">
-                  <div className={`size-9 rounded-xl grid place-items-center mb-4 ${
+                <Card key={it.id} className="p-6 hover:bg-surface/60 transition-colors">
+                  <div className={`size-10 rounded-xl grid place-items-center mb-5 ${
                     it.tone === "teal" ? "bg-teal/15 text-teal" : it.tone === "iris" ? "bg-iris/15 text-iris" : "bg-rose/15 text-rose"
                   }`}>
                     <Sparkles className="size-4" />
                   </div>
-                  <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{it.label}</p>
-                  <p className="text-base font-semibold mt-1.5">{it.value}</p>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{it.label}</p>
+                  <p className="text-base font-semibold mt-2 leading-snug">{it.value}</p>
                 </Card>
               ))}
             </div>
-          </div>
+          </section>
 
           {/* Activity feed */}
-          <Card className="p-6">
-            <h3 className="text-sm font-semibold mb-1">Recent activity</h3>
-            <p className="text-xs text-muted-foreground mb-5">Latest signals across campus</p>
-            <ul className="space-y-3">
+          <Card className="p-7">
+            <h3 className="text-sm font-semibold tracking-tight mb-1">Recent activity</h3>
+            <p className="text-xs text-muted-foreground mb-6 leading-relaxed">Latest signals across campus</p>
+            <ul className="space-y-4">
               {activityFeed.map((a) => (
-                <li key={a.id} className="flex items-start gap-3">
-                  <div className="size-8 rounded-lg bg-teal/15 text-teal grid place-items-center shrink-0">
+                <li key={a.id} className="flex items-start gap-3.5">
+                  <div className="size-9 rounded-lg bg-teal/15 text-teal grid place-items-center shrink-0">
                     <GraduationCap className="size-4" />
                   </div>
                   <div className="min-w-0 flex-1">
