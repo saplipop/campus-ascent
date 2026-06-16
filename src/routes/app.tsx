@@ -1,6 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { Sidebar } from "@/components/app/Sidebar";
-import { Topbar } from "@/components/app/Topbar";
+import { Sidebar, Topbar } from "@/components/layout";
 import { useState } from "react";
 import { getSession } from "@/lib/demo/auth";
 
@@ -21,8 +20,10 @@ function AppLayout() {
       <Sidebar collapsed={collapsed} onToggle={() => setCollapsed((c) => !c)} />
       <div className="flex-1 flex flex-col min-w-0">
         <Topbar />
-        <main className="flex-1 min-w-0 p-6 lg:p-8">
-          <Outlet />
+        <main className="flex-1 min-w-0 p-6 sm:p-8 lg:p-12">
+          <div className="mx-auto w-full max-w-7xl">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
