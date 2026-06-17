@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
-import { Card, CardHeader, PageHeader, Pill } from "@/components/app/ui";
-import { DepartmentBars, EngagementHeatmap, SkillGapBars } from "@/components/app/charts";
+import { ArrowRight } from "lucide-react";
+import { Card, CardHeader, PageHeader, Pill } from "@/components/dashboard";
+import { DepartmentBars, EngagementHeatmap, SkillGapBars } from "@/components/charts";
 import { departments, events, skillGaps, trendingSkills } from "@/lib/demo/data";
 
 export const Route = createFileRoute("/app/analytics")({
@@ -75,11 +76,19 @@ function PerformanceTab() {
       </div>
       <div className="border-t border-white/5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
         {departments.map((d) => (
-          <div key={d.id} className="p-4 border-r last:border-r-0 border-white/5">
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.code}</p>
+          <Link
+            key={d.id}
+            to="/app/students"
+            search={{ dept: d.code }}
+            className="p-4 border-r last:border-r-0 border-white/5 group hover:bg-surface/40 transition-colors"
+          >
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{d.code}</p>
+              <ArrowRight className="size-3 opacity-0 group-hover:opacity-60 transition-opacity" />
+            </div>
             <p className="text-base font-semibold mt-1">{d.careerIQ}</p>
             <p className="text-[10px] text-muted-foreground mt-0.5">{d.students} students</p>
-          </div>
+          </Link>
         ))}
       </div>
     </Card>
