@@ -6,3 +6,5 @@ export { AnimatedNumber } from "./AnimatedNumber";
 export { Pill } from "./Pill";
 export { EmptyState } from "./EmptyState";
 export { ProgressRing } from "./ProgressRing";
+export { Modal } from "./Modal";
+export { StudentFormDialog } from "./StudentFormDialog";
