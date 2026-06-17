@@ -42,8 +42,9 @@ function StudentsPage() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<Student | null>(null);
 
-  const set = (patch: Partial<{ q: string; dept: string; status: StatusFilter; sort: "careerIQ" | "name" | "pulse" }>) =>
-    navigate({ search: (prev) => ({ ...prev, ...patch }) });
+  type S = { q: string; dept: string; status: StatusFilter; sort: "careerIQ" | "name" | "pulse" };
+  const set = (patch: Partial<S>) =>
+    navigate({ search: (prev: S) => ({ ...prev, ...patch }) });
 
   const list = useMemo(() => {
     const filtered = students.filter((s) => {
