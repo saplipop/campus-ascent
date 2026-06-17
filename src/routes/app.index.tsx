@@ -1,8 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Activity, Award, Briefcase, GraduationCap, Sparkles, TrendingUp, Users } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import { Activity, Award, Briefcase, Download, GraduationCap, Sparkles, TrendingUp, Users } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardHeader, KpiCard, PageHeader } from "@/components/dashboard";
 import { GrowthLine } from "@/components/charts";
 import { activityFeed, insights, overviewKpis, studentGrowth } from "@/lib/demo/data";
+import { useStudents } from "@/lib/demo/store";
+import { downloadCSV } from "@/lib/demo/csv";
 import { useFocusMode } from "@/lib/demo/preferences";
 import { useDemoSession } from "@/lib/demo/auth";
 
@@ -23,6 +28,46 @@ export const Route = createFileRoute("/app/")({
 function Overview() {
   const { user } = useDemoSession();
   const { focus } = useFocusMode();
+  const allStudents = useStudents();
+  const [range, setRange] = useState<"7d" | "30d" | "90d" | "ytd">("30d");
+
+  // Live KPI derivation from the mutable store + range multiplier
+  const liveKpis = useMemo(() => {
+    const mult = range === "7d" ? 0.92 : range === "30d" ? 1 : range === "90d" ? 1.05 : 1.12;
+    const avg = (k: keyof (typeof allStudents)[number], fallback: number) => {
+      if (!allStudents.length) return fallback;
+      const v = allStudents.reduce((a, s) => a + (s[k] as number), 0) / allStudents.length;
+      return Math.round(v * 10) / 10;
+    };
+    return {
+      totalStudents: allStudents.length || overviewKpis.totalStudents,
+      activeEngagement: Math.round(avg("pulse", overviewKpis.activeEngagement) * mult * 10) / 10,
+      careerIQ: Math.round(avg("careerIQ", overviewKpis.careerIQ) * mult * 10) / 10,
+      placementReadiness: Math.round(overviewKpis.placementReadiness * mult * 10) / 10,
+    };
+  }, [allStudents, range]);
+
+  const trend = useMemo(() => {
+    const slice = range === "7d" ? 3 : range === "30d" ? 6 : range === "90d" ? 9 : 12;
+    return studentGrowth.slice(-slice);
+  }, [range]);
+
+  const exportOverview = () => {
+    downloadCSV(`overview-${range}-${new Date().toISOString().slice(0, 10)}`, [
+      { metric: "Total Students", value: liveKpis.totalStudents, range },
+      { metric: "Active Engagement %", value: liveKpis.activeEngagement, range },
+      { metric: "Avg CareerIQ", value: liveKpis.careerIQ, range },
+      { metric: "Placement Readiness %", value: liveKpis.placementReadiness, range },
+    ]);
+    toast.success("Overview exported", { description: `overview-${range}.csv` });
+  };
+
+  const RANGES: { id: typeof range; label: string }[] = [
+    { id: "7d", label: "7d" },
+    { id: "30d", label: "30d" },
+    { id: "90d", label: "90d" },
+    { id: "ytd", label: "YTD" },
+  ];
 
   return (
     <div className="space-y-12">
@@ -31,27 +76,49 @@ function Overview() {
         title="Institutional overview"
         description="A real-time view of student development across every department."
       >
-        <button className="h-9 px-4 rounded-lg border border-white/10 bg-surface/40 text-xs font-medium hover:bg-surface transition-colors">
-          Last 30 days
-        </button>
-        <button className="h-9 px-4 rounded-lg bg-teal text-background text-xs font-medium hover:brightness-110 transition-all">
-          Export report
+        <div className="inline-flex p-1 rounded-lg bg-surface/40 border border-white/10">
+          {RANGES.map((r) => (
+            <button
+              key={r.id}
+              onClick={() => setRange(r.id)}
+              className={`px-3 h-7 rounded-md text-[11px] font-medium transition-colors ${
+                range === r.id ? "bg-teal text-background" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {r.label}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={exportOverview}
+          className="h-9 px-4 rounded-lg bg-teal text-background text-xs font-medium hover:brightness-110 transition-all inline-flex items-center gap-1.5"
+        >
+          <Download className="size-3.5" />
+          Export
         </button>
       </PageHeader>
 
       {/* 4 KPI cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-        <KpiCard label="Total Students" value={overviewKpis.totalStudents} icon={Users} delta={4.2} />
-        <KpiCard label="Active Engagement" value={overviewKpis.activeEngagement} suffix="%" icon={Activity} delta={6.1} tone="iris" />
-        <KpiCard label="Avg CareerIQ" value={overviewKpis.careerIQ} suffix="%" icon={Award} delta={5.4} />
-        <KpiCard label="Placement Readiness" value={overviewKpis.placementReadiness} suffix="%" icon={Briefcase} delta={3.8} tone="rose" />
+        <Link to="/app/students" className="block">
+          <KpiCard label="Total Students" value={liveKpis.totalStudents} icon={Users} delta={4.2} />
+        </Link>
+        <Link to="/app/analytics" className="block">
+          <KpiCard label="Active Engagement" value={liveKpis.activeEngagement} suffix="%" icon={Activity} delta={6.1} tone="iris" />
+        </Link>
+        <Link to="/app/analytics" className="block">
+          <KpiCard label="Avg CareerIQ" value={liveKpis.careerIQ} suffix="%" icon={Award} delta={5.4} />
+        </Link>
+        <Link to="/app/students" search={{ status: "High Performer" }} className="block">
+          <KpiCard label="Placement Readiness" value={liveKpis.placementReadiness} suffix="%" icon={Briefcase} delta={3.8} tone="rose" />
+        </Link>
       </div>
 
       {/* Single trend graph */}
       <Card className="p-2">
         <CardHeader
           title="Student Growth Trend"
-          description="Monthly composite CareerIQ across the institution"
+          description={`Monthly composite CareerIQ — ${range.toUpperCase()}`}
           action={
             <span className="text-[10px] flex items-center gap-1.5 text-teal">
               <TrendingUp className="size-3" /> +12.4% YTD
@@ -59,7 +126,7 @@ function Overview() {
           }
         />
         <div className="px-3 pb-5">
-          <GrowthLine data={studentGrowth} />
+          <GrowthLine data={trend} />
         </div>
       </Card>
 
@@ -74,17 +141,31 @@ function Overview() {
               <span className="text-[11px] text-muted-foreground">Updated just now</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              {insights.map((it) => (
-                <Card key={it.id} className="p-6 hover:bg-surface/60 transition-colors">
-                  <div className={`size-10 rounded-xl grid place-items-center mb-5 ${
-                    it.tone === "teal" ? "bg-teal/15 text-teal" : it.tone === "iris" ? "bg-iris/15 text-iris" : "bg-rose/15 text-rose"
-                  }`}>
-                    <Sparkles className="size-4" />
-                  </div>
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{it.label}</p>
-                  <p className="text-base font-semibold mt-2 leading-snug">{it.value}</p>
-                </Card>
-              ))}
+              {insights.map((it) => {
+                const linkProps =
+                  it.id === "i1"
+                    ? { to: "/app/students" as const, search: { dept: "CSE" as const } }
+                    : it.id === "i2"
+                    ? { to: "/app/students" as const, search: { status: "At Risk" as const } }
+                    : { to: "/app/analytics" as const };
+                return (
+                  <Link
+                    key={it.id}
+                    {...linkProps}
+                    className="group"
+                  >
+                    <Card className="p-6 hover:bg-surface/60 transition-colors h-full">
+                      <div className={`size-10 rounded-xl grid place-items-center mb-5 ${
+                        it.tone === "teal" ? "bg-teal/15 text-teal" : it.tone === "iris" ? "bg-iris/15 text-iris" : "bg-rose/15 text-rose"
+                      }`}>
+                        <Sparkles className="size-4" />
+                      </div>
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-muted-foreground">{it.label}</p>
+                      <p className="text-base font-semibold mt-2 leading-snug group-hover:text-teal transition-colors">{it.value}</p>
+                    </Card>
+                  </Link>
+                );
+              })}
             </div>
           </section>
 
